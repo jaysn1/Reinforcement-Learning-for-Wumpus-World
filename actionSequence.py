@@ -1,0 +1,1 @@
+actionSequence = ['Forward', 'TurnRight', 'Forward', 'TurnLeft', 'Forward', 'Grab', 'TurnRight', 'TurnRight', 'Forward', 'TurnRight', 'Forward', 'TurnLeft', 'Forward', 'Climb']
