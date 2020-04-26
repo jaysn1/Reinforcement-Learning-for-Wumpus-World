@@ -1,6 +1,6 @@
 class Environment:
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def move(self, state, action):
         raise NotImplementedError()
