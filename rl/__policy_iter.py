@@ -19,10 +19,26 @@ class PolicyIter(ReinforcementLearnerBase):
             values[action] += P * (R + self.gamma * V[next_state])
         return values
 
-    def run(self, H):
+    def __eval_policy(self, max_iter, threshold):
+        V = np.zeros(self.env.n_states)
+        for i in range(max_iter):
+            for state in range(self.env.n_states):
+                val = 0
+                for action, prob in enumerate(self.__pi_star[state]):
+                    next_state = self.env.move(state, action)
+                    P = self.env.prob(state, action, next_state)
+                    R = self.env.reward(state, action, next_state)
+                    val += prob * P (R + self.gamma * V[next_state])
+                diff = max(0, np.abs(V[state] - val))
+                V[state] = v
+            if diff < threshold:
+                return V
+        return V
+
+    def run(self, H, threshold=1e-9):
         for i in range(H):
             is_policy_good = False
-            V = self.__eval_policy()
+            V = self.__eval_policy(H, threshold)
             for state in range(self.env.n_states):
                 action = np.argmax(self.__pi_star[state])
                 values = self.__1step_lookahead(state, V)
