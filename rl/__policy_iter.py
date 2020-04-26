@@ -30,7 +30,7 @@ class PolicyIter(ReinforcementLearnerBase):
                     R = self.env.reward(state, action, next_state)
                     val += prob * P (R + self.gamma * V[next_state])
                 diff = max(0, np.abs(V[state] - val))
-                V[state] = v
+                V[state] = V
             if diff < threshold:
                 return V
         return V
