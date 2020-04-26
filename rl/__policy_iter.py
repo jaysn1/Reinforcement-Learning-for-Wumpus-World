@@ -10,6 +10,15 @@ class PolicyIter(ReinforcementLearnerBase):
         self.__pi_star = np.ones(
             (self.env.n_states, self.env.n_actions)) / self.env.n_actions
 
+    def __1step_lookahead(self, state, V):
+        values = np.zeros(self.env.n_states)
+        for action in range(env.n_actions):
+            next_state = self.env.move(state, action)
+            P = self.env.prob(state, action, next_state)
+            R = self.env.reward(state, action, next_state)
+            values[action] += P * (R + self.gamma * V[next_state])
+        return values
+
     def run(self, H):
         for i in range(H):
             is_policy_good = False
