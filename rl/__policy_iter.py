@@ -13,10 +13,11 @@ class PolicyIter(ReinforcementLearnerBase):
     def __1step_lookahead(self, state, V):
         values = np.zeros(self.env.n_states)
         for action in range(self.env.n_actions):
-            next_state = self.env.move(state, action)
-            P = self.env.prob(state, action, next_state)
-            R = self.env.reward(state, action, next_state)
-            values[action] += P * (R + self.gamma * V[next_state])
+            next_states = self.env.move(state, action)
+            for next_state in next_states:
+                P = self.env.prob(state, action, next_state)
+                R = self.env.reward(state, action, next_state)
+                values[action] += P * (R + self.gamma * V[next_state])
         return values
 
     def __eval_policy(self, max_iter, threshold):
@@ -25,12 +26,13 @@ class PolicyIter(ReinforcementLearnerBase):
             for state in range(self.env.n_states):
                 val = 0
                 for action, prob in enumerate(self.__pi_star[state]):
-                    next_state = self.env.move(state, action)
-                    P = self.env.prob(state, action, next_state)
-                    R = self.env.reward(state, action, next_state)
-                    val += prob * P (R + self.gamma * V[next_state])
+                    next_states = self.env.move(state, action)
+                    for next_state in next_states:
+                        P = self.env.prob(state, action, next_state)
+                        R = self.env.reward(state, action, next_state)
+                        val += prob * P (R + self.gamma * V[next_state])
                 diff = max(0, np.abs(V[state] - val))
-                V[state] = V
+                V[state] = val
             if diff < threshold:
                 return V
         return V
