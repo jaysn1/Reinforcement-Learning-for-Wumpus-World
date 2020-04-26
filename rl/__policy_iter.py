@@ -12,7 +12,7 @@ class PolicyIter(ReinforcementLearnerBase):
 
     def __1step_lookahead(self, state, V):
         values = np.zeros(self.env.n_states)
-        for action in range(env.n_actions):
+        for action in range(self.env.n_actions):
             next_state = self.env.move(state, action)
             P = self.env.prob(state, action, next_state)
             R = self.env.reward(state, action, next_state)
