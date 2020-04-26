@@ -13,10 +13,11 @@ class ValueIter(ReinforcementLearnerBase):
     def __compute_va_pairs(self, state):
         new_v = np.asarray(self.__v_vals)
         for action in self.env.get_actions(state):
-            next_state = self.env.move(state, action)
-            P = self.env.prob(state, action, next_state)
-            R = self.env.reward(state, action, next_state)
-            new_v[state, action] = P * (R + self.gamma * self.__v_vals[state, action])
+            next_states = self.env.move(state, action)
+            for next_state in next_states:
+                P = self.env.prob(state, action, next_state)
+                R = self.env.reward(state, action, next_state)
+                new_v[state, action] = P * (R + self.gamma * self.__v_vals[state, action])
         self.__v_vals[state, :] = new_v
 
     def run(self, H):
