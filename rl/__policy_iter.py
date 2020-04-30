@@ -11,7 +11,7 @@ class PolicyIter(ReinforcementLearnerBase):
             (self.env.n_states, self.env.n_actions)) / self.env.n_actions
 
     def __1step_lookahead(self, state, V):
-        values = np.zeros(self.env.n_states)
+        values = np.zeros(self.env.n_actions)
         for action in range(self.env.n_actions):
             next_states = self.env.move(state, action)
             for next_state in next_states:
@@ -30,7 +30,7 @@ class PolicyIter(ReinforcementLearnerBase):
                     for next_state in next_states:
                         P = self.env.prob(state, action, next_state)
                         R = self.env.reward(state, action, next_state)
-                        val += prob * P (R + self.gamma * V[next_state])
+                        val += prob * P * (R + self.gamma * V[next_state])
                 diff = max(0, np.abs(V[state] - val))
                 V[state] = val
             if diff < threshold:
@@ -44,6 +44,7 @@ class PolicyIter(ReinforcementLearnerBase):
             for state in range(self.env.n_states):
                 action = np.argmax(self.__pi_star[state])
                 values = self.__1step_lookahead(state, V)
+                print(i, state, values)
                 best_action = np.argmax(values)
                 if action != best_action:
                     is_policy_good = True
@@ -51,7 +52,8 @@ class PolicyIter(ReinforcementLearnerBase):
             if is_policy_good:
                 break
         self.__is_ran = True
+        return self.__pi_star
 
     def next_action(self, state):
         assert self.__is_ran, "Can't get next action without fitting the model. First call PolicyIter().run()"
-        return np.argmax(self.__pi_vals[state, :])
+        return np.argmax(self.__pi_star[state, :])
