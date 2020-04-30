@@ -24,6 +24,12 @@ class ValueIter(ReinforcementLearnerBase):
         for i in range(H):
             for state in range(self.env.n_states):
                 self.__compute_va_pairs(state)
+            if i % 5 == 0:
+                pi = []
+                for state in range(self.env.n_states):
+                    pi.append(np.argmax(self.__v_vals[state]))
+                print('\n{}/{}\t Reward: {}:'.format(i+1, H, self.env.calculate_total_reward(pi)))
+                self.env.display_policy(pi)
         self.__is_ran = True
         return self.__v_vals
 

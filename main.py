@@ -7,10 +7,10 @@ from env import wumpus
 
 def run(algo_cls, H, gamma, wumpus_config):
     env = wumpus.WumpusEnvironment(**wumpus_config)
+    env.display_action_legends()
     iterator = algo_cls(env, gamma)
     v_or_pi = iterator.run(H)
-    pprint(v_or_pi)
-    return iterator, env
+    return iterator, env, v_or_pi
 
 
 if __name__ == '__main__':
@@ -24,4 +24,12 @@ if __name__ == '__main__':
         'noise': 0.2
     }
 
-    iterator, env = run(rl.ValueIter, 1000, 0.9, wumpus_config)
+    iterator, env, v_or_pi = run(rl.PolicyIter, 20, 0.7, wumpus_config)
+    import numpy as np
+    pi = []
+    for i in range(env.n_states):
+        pi.append(np.argmax(v_or_pi[i]))
+    
+    print('\n\nFinal Policy')
+    print('Reward: {}:'.format(env.calculate_total_reward(pi)))
+    env.display_policy(pi)

@@ -39,18 +39,19 @@ class PolicyIter(ReinforcementLearnerBase):
 
     def run(self, H, threshold=1e-9):
         for i in range(H):
-            is_policy_good = False
             V = self.__eval_policy(H, threshold)
             for state in range(self.env.n_states):
                 action = np.argmax(self.__pi_star[state])
                 values = self.__1step_lookahead(state, V)
-                print(i, state, values)
                 best_action = np.argmax(values)
                 if action != best_action:
-                    is_policy_good = True
                     self.__pi_star[state] = np.eye(self.env.n_actions)[best_action]
-            if is_policy_good:
-                break
+            if i % 5 == 0:
+                pi = []
+                for state in range(self.env.n_states):
+                    pi.append(np.argmax(self.__pi_star[state]))
+                print('\n{}/{}\t Reward: {}:'.format(i+1, H, self.env.calculate_total_reward(pi)))
+                self.env.display_policy(pi)
         self.__is_ran = True
         return self.__pi_star
 
