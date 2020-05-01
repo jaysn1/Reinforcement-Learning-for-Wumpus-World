@@ -8,5 +8,5 @@ class Environment:
     def reward(self, state, action, next_state):
         raise NotImplementedError()
 
-    def probs(self, state, action, next_state):
+    def prob(self, state, action, next_state):
         raise NotImplementedError()
