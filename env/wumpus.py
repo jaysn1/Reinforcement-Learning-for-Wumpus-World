@@ -174,8 +174,8 @@ class WumpusEnvironment(Environment):
     def reward(self, state, action, next_state):
         if list(self.states[state][:-1]) in self.pit_locs:
             return -100
-        # if self.wumpus_alive and list(self.states[next_state][:-1]) == self.wumpus_loc:
-        #     return -250
+        if self.wumpus_alive and list(self.states[next_state][:-1]) == self.wumpus_loc:
+            return -250
         if self.wumpus_alive and list(self.states[state][:-1]) == self.wumpus_loc:
             return -100
         if action == WumpusEnvironment.SHOOT:
