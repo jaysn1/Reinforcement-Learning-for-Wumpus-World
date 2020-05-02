@@ -71,7 +71,7 @@ Here,
 Things and Abbreviations looking at Env:
 S - Start Point
 G - GOLD  P - PIT
-W - WUMPUSX - STOP
+W - WUMPUS X - STOP
 ```
 
 Action Abbreviations:
