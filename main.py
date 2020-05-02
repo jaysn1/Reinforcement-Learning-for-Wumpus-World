@@ -14,6 +14,7 @@ def run(algo_cls, H, gamma, wumpus_config):
 
 
 if __name__ == '__main__':
+    # Arguments to the code run python main.py --help to see the args and details
     parser = argparse.ArgumentParser()
     parser.add_argument('--algo', type=str, help="Algorithm to use - Value Iteration or Policy Iteration [p|V]",
                         default='P')

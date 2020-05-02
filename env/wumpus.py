@@ -2,6 +2,9 @@ from .__base import Environment
 
 
 class WumpusEnvironment(Environment):
+    """
+    Wumpus Environment
+    """
     NORTH = 0
     SOUTH = 1
     EAST = 2

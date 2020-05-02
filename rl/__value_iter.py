@@ -4,7 +4,17 @@ from .__reinforcement_learner import ReinforcementLearnerBase
 
 
 class ValueIter(ReinforcementLearnerBase):
+    """
+    Value Iteration is an algorithm which improves over time using horizon.
+    """
     def __init__(self, env, gamma):
+        """
+        Make a ValueIter Object
+        
+        @params
+        env - Environment derived from env.Environment()
+        gamma - discount factor
+        """
         super().__init__(env)
         self.__v_vals = np.zeros((env.n_states, env.n_actions))
         self.gamma = gamma
@@ -21,6 +31,11 @@ class ValueIter(ReinforcementLearnerBase):
         self.__v_vals[state, :] = new_v
 
     def run(self, H):
+        """
+        Fit the model
+        @params:
+        H - horizon
+        """
         for i in range(H):
             for state in range(self.env.n_states):
                 self.__compute_va_pairs(state)
@@ -34,5 +49,8 @@ class ValueIter(ReinforcementLearnerBase):
         return self.__v_vals
 
     def next_action(self, state):
+        """
+        Get the next action given state.
+        """
         assert self.__is_ran, "Can't get next action without fitting the model. First call ValueIter().run()"
         return np.argmax(self.__v_vals[state, :])

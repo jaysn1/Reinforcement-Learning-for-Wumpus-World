@@ -3,7 +3,19 @@ import numpy as np
 from .__reinforcement_learner import ReinforcementLearnerBase
 
 class PolicyIter(ReinforcementLearnerBase):
+    """
+    Policy Iteration is an algorithm which is dependent on two steps
+    - Policy Evaluation and
+    - Policy Improvement
+    """
     def __init__(self, env, gamma):
+        """
+        Make a PolicyIter Object
+        
+        @params
+        env - Environment derived from env.Environment()
+        gamma - discount factor
+        """
         super().__init__(env)
         self.gamma = gamma
         self.__is_ran = False
@@ -38,6 +50,12 @@ class PolicyIter(ReinforcementLearnerBase):
         return V
 
     def run(self, H, threshold=1e-9):
+        """
+        Fit the model
+        @params:
+        H - horizon
+        threshold - stopping criteria for policy improvement step.
+        """
         for i in range(H):
             V = self.__eval_policy(H, threshold)
             for state in range(self.env.n_states):
@@ -56,5 +74,8 @@ class PolicyIter(ReinforcementLearnerBase):
         return self.__pi_star
 
     def next_action(self, state):
+        """
+        Get the next action given state.
+        """
         assert self.__is_ran, "Can't get next action without fitting the model. First call PolicyIter().run()"
         return np.argmax(self.__pi_star[state, :])
